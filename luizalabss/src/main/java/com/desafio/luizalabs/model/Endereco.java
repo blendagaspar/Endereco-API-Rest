@@ -4,36 +4,47 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Entity                                 //endtidade do JPA hibernate
-@Table(name = "endereco")               //criar tabela com nome de endereço no banco de dados
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+
+
+
+
+/**endtidade do JPA hibernate */
+@Entity              
+/**criar tabela com nome de endereço no banco de dados*/
+@Table(name = "endereco")  
 public class Endereco {                 
 
 	
-	@Id                                                    //id gerado pelo banco de dados a  cada postagem primary key
+	@Id                                                      
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@NotNull
-	@Size(min= 0 , max = 8)
+	@NotNull(message = "digite cep no formato 8888888")
+	@Size(min= 8 , max = 8, message = "digite apenas 8 caracteres")
 	private String cep;
 	
-	@NotNull
+	@NotNull(message = "digite o nome da rua")
 	private String rua ;
 	
-	@NotNull
+	@NotNull(message = "digite o nome do bairro")
 	private String bairro;
 	
-	@NotNull
+	@NotNull(message = "digite o nome da cidade")
 	private String cidade;
 	
-	@NotNull
+	@NotNull(message = "digite o nome do estado")
 	private String estado;
-
-
+   
+	@ManyToOne
+	@JsonIgnoreProperties ("endereco")
+	private Usuario usuario;
 	
 	
 	//getters e setteres 
@@ -73,6 +84,12 @@ public class Endereco {
 	}
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+	public Usuario getUsuario() {
+		return usuario;
+	}
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 	
 	
